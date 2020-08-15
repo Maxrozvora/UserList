@@ -37,8 +37,12 @@ export default new Vuex.Store({
   },
   actions: {
     async getUsers({commit}) {
-      const result = await axios.get('http://jsonplaceholder.typicode.com/users/');
-      commit('setUser', result.data);
+      try {
+        const result = await axios.get('http://jsonplaceholder.typicode.com/users/');
+        commit('setUser', result.data);
+      } catch (e) {
+        throw new Error(e)
+      }
     }
   },
   getters: {
