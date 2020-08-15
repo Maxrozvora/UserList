@@ -1,7 +1,8 @@
 <template>
   <div>
     <v-list three-line subheader>
-      <v-subheader inset>User List</v-subheader>
+      <h1 class="h1">User List</h1>
+      <v-divider></v-divider>
 
       <v-list-item
           v-for="(item, index) in getList"
@@ -22,6 +23,7 @@
           </v-btn>
         </v-list-item-action>
       </v-list-item>
+      <div class="font-weight-light grey--text mb-3 text--darken-3 title mt-3 text-center" v-if="!getList.length">Users not found</div>
 
       <v-divider inset></v-divider>
     </v-list>

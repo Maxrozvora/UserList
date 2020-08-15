@@ -6,7 +6,8 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    userList: []
+    userList: [],
+    searchValue: ''
   },
   mutations: {
     addUser(state, user) {
@@ -20,6 +21,10 @@ export default new Vuex.Store({
 
     setUser(state, data) {
       state.userList = data
+    },
+
+    setSearchValue(state, value) {
+      state.searchValue = value
     }
   },
   actions: {
@@ -29,7 +34,9 @@ export default new Vuex.Store({
     }
   },
   getters: {
-    getUserList: state => state.userList
+    getUserList: state => {
+      return state.userList.filter(user => user.username.toLowerCase().includes(state.searchValue.toLowerCase()))
+    }
   },
   modules: {
   }

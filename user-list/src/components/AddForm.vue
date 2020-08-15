@@ -66,7 +66,7 @@
       <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn color="blue darken-1" text @click="close">Close</v-btn>
-        <v-btn color="blue darken-1" text @click="addUser">Save</v-btn>
+        <v-btn color="blue darken-1" text @click="addUser" :disabled="!valid">Save</v-btn>
       </v-card-actions>
     </v-card>
     <v-snackbar
@@ -86,14 +86,6 @@
       </template>
     </v-snackbar>
   </v-dialog>
-
-
-
-
-
-
-
-
 </template>
 
 <script>
@@ -120,14 +112,8 @@ export default {
   }),
 
   methods: {
-    validate () {
-      this.$refs.form.validate()
-    },
     reset () {
       this.$refs.form.reset()
-    },
-    resetValidation () {
-      this.$refs.form.resetValidation()
     },
 
     addUser() {

@@ -12,10 +12,10 @@
       </div>
 
     </v-app-bar>
-
     <v-main>
       <v-container>
         <add-form></add-form>
+        <search-input></search-input>
         <list></list>
       </v-container>
     </v-main>
@@ -26,17 +26,32 @@
 
 import AddForm from "@/components/AddForm";
 import List from "@/components/List";
+import SearchInput from "@/components/SearchInput";
 export default {
   name: 'App',
 
   components: {
+    SearchInput,
     List,
     AddForm
   },
 
+  provide() {
+    return {
+      toggleDialog: () => {
+        // this.dialog = !this.dialog
+      }
+    }
+  },
+
   data: () => ({
-    //
+    dialog: false,
+    editedUser: null
   }),
+
+  methods: {
+
+  },
 
   mounted() {
     this.$store.dispatch('getUsers')
