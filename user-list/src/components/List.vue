@@ -9,9 +9,9 @@
           :key="index"
       >
         <v-list-item-content>
-          <v-list-item-title v-text="item.username"></v-list-item-title>
-          <v-list-item-subtitle>Email: {{item.email}}</v-list-item-subtitle>
-          <v-list-item-subtitle>Address: {{item.address.city}} {{item.address.street}} {{item.address.block}} </v-list-item-subtitle>
+          <v-list-item-title v-text="item.username" class="font-weight-bold"></v-list-item-title>
+          <v-list-item-subtitle><span class="font-weight-bold">Email:</span> {{item.email}}</v-list-item-subtitle>
+          <v-list-item-subtitle><span class="font-weight-bold">Address:</span> {{item.address.city}} {{item.address.street}} {{item.address.zipcode}} </v-list-item-subtitle>
         </v-list-item-content>
 
         <v-list-item-action>
@@ -31,6 +31,8 @@
 </template>
 
 <script>
+import {bus} from "@/plugins/bus";
+
 export default {
 name: "List",
   data: () => ({}),
@@ -47,7 +49,7 @@ name: "List",
     },
 
     editUser(user) {
-      this.dialog = true
+      bus.$emit('editUser', user)
     },
 
   }

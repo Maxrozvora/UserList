@@ -36,14 +36,6 @@ export default {
     AddForm
   },
 
-  provide() {
-    return {
-      toggleDialog: () => {
-        // this.dialog = !this.dialog
-      }
-    }
-  },
-
   data: () => ({
     dialog: false,
     editedUser: null

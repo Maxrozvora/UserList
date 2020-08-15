@@ -10,9 +10,17 @@ export default new Vuex.Store({
     searchValue: ''
   },
   mutations: {
+
     addUser(state, user) {
-      state.userList.unshift(user)
+      state.userList.unshift(user);
     },
+
+    editUser(state, newUser) {
+      const user = state.userList.find(user => user.id === newUser.id);
+      const index = state.userList.indexOf(user);
+      state.userList.splice(index, 1, newUser);
+    },
+
     deleteUser(state, user) {
       const index = state.userList.indexOf(user);
       if (index !== -1)
@@ -20,22 +28,22 @@ export default new Vuex.Store({
     },
 
     setUser(state, data) {
-      state.userList = data
+      state.userList = data;
     },
 
     setSearchValue(state, value) {
-      state.searchValue = value
+      state.searchValue = value;
     }
   },
   actions: {
     async getUsers({commit}) {
-      const result = await axios.get('http://jsonplaceholder.typicode.com/users/')
-      commit('setUser', result.data)
+      const result = await axios.get('http://jsonplaceholder.typicode.com/users/');
+      commit('setUser', result.data);
     }
   },
   getters: {
     getUserList: state => {
-      return state.userList.filter(user => user.username.toLowerCase().includes(state.searchValue.toLowerCase()))
+      return state.userList.filter(user => user.username.toLowerCase().includes(state.searchValue.toLowerCase()));
     }
   },
   modules: {

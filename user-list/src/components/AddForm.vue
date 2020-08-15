@@ -54,8 +54,8 @@
 
               <v-col cols="12" sm="6" md="4">
                 <v-text-field
-                    v-model="block"
-                    label="Block"
+                    v-model="zipcode"
+                    label="Zipcode"
                 ></v-text-field>
               </v-col>
 
@@ -69,31 +69,18 @@
         <v-btn color="blue darken-1" text @click="addUser" :disabled="!valid">Save</v-btn>
       </v-card-actions>
     </v-card>
-    <v-snackbar
-        v-model="snackbar"
-        :timeout="timeout"
-    >
-      User was added
-      <template v-slot:action="{ attrs }">
-        <v-btn
-            color="blue"
-            text
-            v-bind="attrs"
-            @click="snackbar = false"
-        >
-          Close
-        </v-btn>
-      </template>
-    </v-snackbar>
   </v-dialog>
 </template>
 
 <script>
+import {bus} from "@/plugins/bus";
+
 export default {
   name: "AddForm",
   data: () => ({
     valid: true,
     dialog: false,
+    id: null,
     username: '',
     nameRules: [
       v => !!v || 'Name is required',
@@ -106,9 +93,9 @@ export default {
     ],
     city: '',
     street: '',
-    block: '',
-    snackbar: false,
+    zipcode: '',
     timeout: 2000,
+    adding: false
   }),
 
   methods: {
@@ -124,20 +111,46 @@ export default {
         address: {
           street: this.street,
           city: this.city,
-          block: this.block
+          zipcode: this.zipcode
         }
       }
-      this.$store.commit('addUser', user)
+      if (this.adding) {
+        user.id = this.id
+        this.$store.commit('editUser', user)
+      }
+      else
+        this.$store.commit('addUser', user)
       this.reset();
-      this.snackbar = true;
       this.dialog = false;
+      this.adding = false;
     },
 
     close() {
       this.dialog = false;
       this.reset();
+      this.adding = false;
+    },
+
+    editUser(user) {
+      this.dialog = true;
+      this.id = user.id
+      this.username = user.username;
+      this.email = user.email;
+      this.city = user.address.city;
+      this.street = user.address.street;
+      this.zipcode = user.address.zipcode;
+
+      this.adding = true;
     }
   },
+
+  mounted() {
+    bus.$on('editUser', this.editUser)
+  },
+
+  beforeDestroy() {
+    bus.$off('editUser', this.editUser)
+  }
 }
 </script>
 <style scoped>
