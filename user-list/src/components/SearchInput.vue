@@ -1,5 +1,6 @@
 <template>
   <v-text-field
+      class="mt-4"
       v-model="value"
       label="Search user by name"
       required

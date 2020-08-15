@@ -6,8 +6,11 @@
           dark
           v-bind="attrs"
           v-on="on"
+          absolute
+          fab
+          right
       >
-        Add User
+        <v-icon>mdi-plus</v-icon>
       </v-btn>
     </template>
     <v-card>
