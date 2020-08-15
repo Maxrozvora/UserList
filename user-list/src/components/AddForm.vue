@@ -6,7 +6,7 @@
         v-model="valid"
     >
       <v-text-field
-          v-model="name"
+          v-model="username"
           :rules="nameRules"
           label="User name"
           required
@@ -20,30 +20,58 @@
       ></v-text-field>
 
       <v-text-field
-          v-model="address"
-          :rules="addressRules"
-          label="Address"
-          required
+          v-model="city"
+          label="City"
       ></v-text-field>
+
+      <v-text-field
+          v-model="street"
+          label="Street"
+      ></v-text-field>
+
+      <v-text-field
+          v-model="block"
+          label="Block"
+      ></v-text-field>
+
       <v-btn
           :disabled="!valid"
           color="success"
           class="mr-4"
-          @click="validate"
+          @click="addUser"
       >
         Add user
       </v-btn>
 
 
     </v-form>
+
+    <v-snackbar
+        v-model="snackbar"
+        :timeout="timeout"
+    >
+      User was added
+      <template v-slot:action="{ attrs }">
+        <v-btn
+            color="blue"
+            text
+            v-bind="attrs"
+            @click="snackbar = false"
+        >
+          Close
+        </v-btn>
+      </template>
+    </v-snackbar>
+
   </v-row>
 </template>
 
 <script>
 export default {
+  name: "AddForm",
   data: () => ({
     valid: true,
-    name: 'AddForm',
+    username: '',
     nameRules: [
       v => !!v || 'Name is required',
       v => (v && v.length <= 10) || 'Name must be less than 10 characters',
@@ -53,14 +81,11 @@ export default {
       v => !!v || 'E-mail is required',
       v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
     ],
-    select: null,
-    items: [
-      'Item 1',
-      'Item 2',
-      'Item 3',
-      'Item 4',
-    ],
-    checkbox: false,
+    city: '',
+    street: '',
+    block: '',
+    snackbar: false,
+    timeout: 2000,
   }),
 
   methods: {
@@ -73,6 +98,23 @@ export default {
     resetValidation () {
       this.$refs.form.resetValidation()
     },
+
+    addUser() {
+      const user = {
+        id: new Date().valueOf(),
+        username: this.username,
+        email: this.email,
+        address: {
+          street: this.street,
+          city: this.city,
+          block: this.block
+        }
+      }
+      console.log('user', user)
+      this.$store.commit('addUser', user)
+      this.reset();
+      this.snackbar = true;
+    }
   },
 }
 </script>

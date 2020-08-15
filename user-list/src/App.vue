@@ -14,7 +14,10 @@
     </v-app-bar>
 
     <v-main>
-      <add-form></add-form>
+      <v-container>
+        <add-form></add-form>
+        <list></list>
+      </v-container>
     </v-main>
   </v-app>
 </template>
@@ -22,10 +25,12 @@
 <script>
 
 import AddForm from "@/components/AddForm";
+import List from "@/components/List";
 export default {
   name: 'App',
 
   components: {
+    List,
     AddForm
   },
 
