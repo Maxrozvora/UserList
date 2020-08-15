@@ -45,6 +45,8 @@
                 <v-text-field
                     v-model="city"
                     label="City"
+                    :rules="cityRules"
+                    required
                 ></v-text-field>
               </v-col>
 
@@ -88,6 +90,9 @@ export default {
     nameRules: [
       v => !!v || 'Name is required',
       v => (v && v.length > 3) || 'Name must be more than 3 characters',
+    ],
+    cityRules: [
+      v => !!v || 'City is required'
     ],
     email: '',
     emailRules: [
